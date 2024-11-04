@@ -1,12 +1,29 @@
 ﻿using System;
 
-namespace Aula7LP2
+namespace Observers
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        private static void Main()
         {
-            Console.WriteLine("Hello, World!");
+            // The subject
+            KeyReader kr = new KeyReader();
+
+            // The observers
+            IObserver<AbstractStringSubject> obs1 = new ConsolePrinter();
+            IObserver<AbstractStringSubject> obs2 = new FileSaver("pressed_keys.txt");
+
+            // Register observers
+            kr.RegisterObserver(obs1);
+            kr.RegisterObserver(obs2);
+
+            // Read keys, observers are listening
+            Console.WriteLine("Press some keys...");
+            kr.ReadKeys();
+
+            // Unregister observers
+            kr.RemoveObserver(obs2);
+            kr.RemoveObserver(obs1);
         }
     }
 }
